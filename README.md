@@ -201,8 +201,8 @@ xgb_predictor = xgb.deploy(initial_instance_count=1,instance_type='ml.m4.xlarge'
 #### 5b. 테스트 데이터의 고객이 은행 상품에 가입했는지 예측하려면 다음 코드를 다음 코드 셀에 복사하고 [실행]을 선택합니다.
 ```python
 test_data_array = test_data.drop(['y_no', 'y_yes'], axis=1).values #load the data into an array
-xgb_predictor.content_type = 'text/csv' # set the data type for an inference
-xgb_predictor.serializer = csv_serializer # set the serializer type
+#xgb_predictor.content_type = 'text/csv' # set the data type for an inference
+xgb_predictor.serializer = sagemaker.serializers.CSVSerializer() # set the serializer type
 predictions = xgb_predictor.predict(test_data_array).decode('utf-8') # predict!
 predictions_array = np.fromstring(predictions[1:], sep=',') # and turn the prediction into an array
 print(predictions_array.shape)
