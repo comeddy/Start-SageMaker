@@ -22,3 +22,10 @@
 여기를 클릭하면 AWS Management Console이 새 창에서 열리므로 이 단계별 안내서를 계속 열어 놓을 수 있습니다. 검색창에 SageMaker를 입력하고 Amazon SageMaker를 선택해서 서비스 콘솔을 엽니다.
 
 ![image](https://d1.awsstatic.com/tmt/build-train-deploy-machine-learning-model-sagemaker/build-train-deploy-machine-learning-model-sagemaker-1.dc780f9c52f4be8442c3ffdb735606bb51ca6e5d.png)
+
+# 2단계. Amazon SageMaker 노트북 인스턴스 생성
+## 이 단계에서는 Amazon SageMaker 노트북 인스턴스를 생성합니다. 
+
+### 2a. Amazon SageMaker 대시보드에서 노트북 인스턴스를 선택합니다. 
+
+![image](https://d1.awsstatic.com/tmt/build-train-deploy-machine-learning-model-sagemaker/build-train-deploy-machine-learning-model-sagemaker-2a.11efeb24074ebbfea5a13b30b6365ef830f29fd2.png)
