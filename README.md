@@ -25,7 +25,14 @@
 
 # 2단계. Amazon SageMaker 노트북 인스턴스 생성
 ## 이 단계에서는 Amazon SageMaker 노트북 인스턴스를 생성합니다. 
-
-### 2a. Amazon SageMaker 대시보드에서 노트북 인스턴스를 선택합니다. 
+2a. Amazon SageMaker 대시보드에서 노트북 인스턴스를 선택합니다. 
 
 ![image](https://d1.awsstatic.com/tmt/build-train-deploy-machine-learning-model-sagemaker/build-train-deploy-machine-learning-model-sagemaker-2a.11efeb24074ebbfea5a13b30b6365ef830f29fd2.png)
+
+2b. 노트북 인스턴스 생성 페이지에서 [노트북 인스턴스 이름] 필드에 이름을 입력합니다. 이 자습서에서는 인스턴스 이름으로 MySageMakerInstance를 사용하지만, 원하는 경우 다른 이름을 선택할 수 있습니다.
+
+이 자습서에서는 기본 노트북 인스턴스 유형인 ml.t2.medium을 그대로 사용할 수 있습니다.
+
+노트북 인스턴스가 데이터에 액세스하고 안전하게 Amazon S3에 데이터를 업로드하도록 허용하려면 IAM 역할을 지정해야 합니다. [IAM 역할] 필드에서 [새 역할 생성]을 선택하고 Amazon SageMaker가 필수 권한을 가진 역할을 생성하고 인스턴스에 할당하도록 합니다. 또는, 계정에서 이를 위한 목적으로 사용할 기존의 IAM 역할을 선택할 수 있습니다.
+
+![image](https://d1.awsstatic.com/tmt/build-train-deploy-machine-learning-model-sagemaker/build-train-deploy-machine-learning-model-sagemaker-2b.de8d08c388a67802b1040a8b96613b4a24563283.png)
