@@ -17,7 +17,7 @@
 이 자습서에서 생성되고 사용된 리소스는 AWS 프리 티어에 해당합니다. 7단계를 완료하고 리소스를 종료해야 합니다. 2개월 이상 계정에서 이 리소스가 활성화되어 있으면 계정에 0.50 USD 미만의 비용이 청구됩니다.
 
 
-1단계. Amazon SageMaker 콘솔 열기
+## 1단계. Amazon SageMaker 콘솔 열기
 Amazon SageMaker 콘솔로 이동합니다.
 여기를 클릭하면 AWS Management Console이 새 창에서 열리므로 이 단계별 안내서를 계속 열어 놓을 수 있습니다. 검색창에 SageMaker를 입력하고 Amazon SageMaker를 선택해서 서비스 콘솔을 엽니다.
 
