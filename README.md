@@ -67,7 +67,13 @@
 
 3c. 데이터를 준비하고, 기계 학습 모델을 훈련하여 배포하려면 Jupyter 노트북 환경에 몇 가지 라이브러리를 가져와서 몇 가지 환경 변수를 정의해야 합니다. 다음의 코드를 인스턴스의 코드 셀에 복사하고 [실행]을 선택합니다.
 
+최신 버전으로 인스톨합니다.
+```
+pip install --upgrade sagemaker
+```
+
 코드가 실행되는 동안 오른쪽의 첫 번째 스크린샷에 나타난 것과 같이 꺾쇠괄호 사이에 *가 표시됩니다. 몇 초 후에 코드 실행이 완료되고 *가 1로 대체되며, 오른쪽 두 번째 스크린샷에 나타난 것과 같이 성공 메시지가 표시됩니다. 
+
 ```
 # import libraries
 import boto3, re, sys, math, json, os, sagemaker, urllib.request
@@ -92,3 +98,25 @@ print("Success - the MySageMakerInstance is in the " + my_region + " region. You
 ```
 ![image](https://d1.awsstatic.com/tmt/build-train-deploy-machine-learning-model-sagemaker/build-train-deploy-machine-learning-model-sagemaker-3c-1.11d4eef04bcf0c6a2d097df74835f1fa8b958cf5.png)
 ![image](https://d1.awsstatic.com/tmt/build-train-deploy-machine-learning-model-sagemaker/build-train-deploy-machine-learning-model-sagemaker-3c-2.ac780bcdbc5eb1e86775bcf3b971d4663bcbca41.png)
+
+
+3d. 이 단계에서는 이 자습서에서 데이터를 저장할 S3 버킷을 생성합니다.
+
+다음의 코드를 노트북의 다음 코드 셀에 복사하고 S3 버킷의 이름을 고유하게 변경합니다. S3 버킷 이름은 전체적으로 중복이 없어야 하며 그 외에 다른 제한 사항이 있습니다.
+
+[실행]을 선택합니다. 성공 메시지가 수신되지 않으면 버킷 이름을 변경하고 다시 시도하십시오.
+
+```
+bucket_name = 'your-s3-bucket-name' # <--- CHANGE THIS VARIABLE TO A UNIQUE NAME FOR YOUR BUCKET
+s3 = boto3.resource('s3')
+try:
+    if  my_region == 'us-east-1':
+      s3.create_bucket(Bucket=bucket_name)
+    else: 
+      s3.create_bucket(Bucket=bucket_name, CreateBucketConfiguration={ 'LocationConstraint': my_region })
+    print('S3 bucket created successfully')
+except Exception as e:
+    print('S3 error: ',e)
+```
+
+![image](https://aws.amazon.com/ko/getting-started/hands-on/build-train-deploy-machine-learning-model-sagemaker/?nc1=h_ls#)
