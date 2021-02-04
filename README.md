@@ -179,3 +179,56 @@ xgb.fit({'train': s3_input_train})
 ```
 ![image](https://d1.awsstatic.com/tmt/build-train-deploy-machine-learning-model-sagemaker/build-train-deploy-machine-learning-model-sagemaker-4c.baa37d5c6f44f0dbf76d9c0e86140673be1adb34.png)
 
+# 5단계. 모델 배포
+## 이 단계에서는 훈련된 모델을 엔드포인트로 배포하고, CSV 데이터의 형식을 다시 지정하여 로드한 다음에는, 모델을 실행하여 예측을 생성합니다.
+5a. 서버에 모델을 배포하고 액세스할 수 있는 엔드포인트를 생성하려면 다음 코드를 다음 코드 셀에 복사하고 [실행]을 선택합니다.
+```
+xgb_predictor = xgb.deploy(initial_instance_count=1,instance_type='ml.m4.xlarge')
+```
+![image](https://d1.awsstatic.com/tmt/build-train-deploy-machine-learning-model-sagemaker/build-train-deploy-machine-learning-model-sagemaker-5a.18aa4545125b2f1bb01871be9b73e4b723b66334.png)
+
+5b. 테스트 데이터의 고객이 은행 상품에 가입했는지 예측하려면 다음 코드를 다음 코드 셀에 복사하고 [실행]을 선택합니다.
+```
+test_data_array = test_data.drop(['y_no', 'y_yes'], axis=1).values #load the data into an array
+xgb_predictor.content_type = 'text/csv' # set the data type for an inference
+xgb_predictor.serializer = csv_serializer # set the serializer type
+predictions = xgb_predictor.predict(test_data_array).decode('utf-8') # predict!
+predictions_array = np.fromstring(predictions[1:], sep=',') # and turn the prediction into an array
+print(predictions_array.shape)
+```
+![image](https://d1.awsstatic.com/tmt/build-train-deploy-machine-learning-model-sagemaker/build-train-deploy-machine-learning-model-sagemaker-5b.25ac920ed4221dd71524e8ec41700888938c5f9f.png)
+
+
+# 6단계. 모델 성능 평가
+## 이 단계에서는 기계 학습 모델의 성능과 정확도를 평가합니다.
+6a. 아래의 코드를 복사하여 붙여넣고 [실행]을 선택하여 오차 행렬이라는 테이블에서 실제 값과 예측값을 비교합니다.
+
+예측에 기반하여 테스트 데이터에서 고객의 90%가 정확하게 예금 증서에 가입할 것으로 예측된다는 결론을 내릴 수 있습니다. 가입 고객에 대한 정밀도는 65%(278/429), 가입하지 않은 고객에 대한 정밀도는 90%(10,785/11,928)입니다.
+
+```
+cm = pd.crosstab(index=test_data['y_yes'], columns=np.round(predictions_array), rownames=['Observed'], colnames=['Predicted'])
+tn = cm.iloc[0,0]; fn = cm.iloc[1,0]; tp = cm.iloc[1,1]; fp = cm.iloc[0,1]; p = (tp+tn)/(tp+tn+fp+fn)*100
+print("\n{0:<20}{1:<4.1f}%\n".format("Overall Classification Rate: ", p))
+print("{0:<15}{1:<15}{2:>8}".format("Predicted", "No Purchase", "Purchase"))
+print("Observed")
+print("{0:<15}{1:<2.0f}% ({2:<}){3:>6.0f}% ({4:<})".format("No Purchase", tn/(tn+fn)*100,tn, fp/(tp+fp)*100, fp))
+print("{0:<16}{1:<1.0f}% ({2:<}){3:>7.0f}% ({4:<}) \n".format("Purchase", fn/(tn+fn)*100,fn, tp/(tp+fp)*100, tp))
+```
+
+![image](https://d1.awsstatic.com/tmt/build-train-deploy-machine-learning-model-sagemaker/build-train-deploy-machine-learning-model-sagemaker-6a.f2344d634b58210902b95c50c8e4fe2b065b07cd.png)
+
+# 7단계. 리소스 종료
+## 이 단계에서는 Amazon SageMaker 관련 리소스를 종료합니다.
+
+중요: 현재 사용되지 않는 리소스를 종료하면 비용이 절감되므로 권장됩니다. 리소스를 종료하지 않으면 요금이 부과됩니다.
+7a. S3 버킷에서 Amazon SageMaker 엔드포인트와 객체를 삭제하려면 다음 코드를 복사해서 붙여넣고 [실행]합니다.  
+```
+sagemaker.Session().delete_endpoint(xgb_predictor.endpoint)
+bucket_to_delete = boto3.resource('s3').Bucket(bucket_name)
+bucket_to_delete.objects.all().delete()
+```
+![image](https://d1.awsstatic.com/tmt/build-train-deploy-machine-learning-model-sagemaker/build-train-deploy-machine-learning-model-sagemaker-7a.749511e1442644b10057b768230afe5b6dabef3a.png)
+
+# 축하합니다!
+Amazon SageMaker를 사용하여 기계 학습 모델을 준비, 훈련, 배포 및 평가하는 방법을 배우셨습니다. Amazon SageMaker는 훈련 데이터에 신속히 연결하는 데 필요한 모든 것을 제공하여 손쉽게 기계 학습 모델을 구축하고, 애플리케이션에 맞는 최적의 알고리즘과 프레임워크를 선택하면서도 모든 기본 인프라를 관리하여 페타바이트 규모로 모델을 훈련할 수 있도록 지원합니다.
+
