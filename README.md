@@ -26,8 +26,11 @@ SageMaker: Starting XGBoost with SageMaker V2.24
 
 ![image](https://d1.awsstatic.com/tmt/build-train-deploy-machine-learning-model-sagemaker/build-train-deploy-machine-learning-model-sagemaker-1.dc780f9c52f4be8442c3ffdb735606bb51ca6e5d.png)
 
+
+
 # 2단계. Amazon SageMaker 노트북 인스턴스 생성
 ## 이 단계에서는 Amazon SageMaker 노트북 인스턴스를 생성합니다. 
+
 2a. Amazon SageMaker 대시보드에서 노트북 인스턴스를 선택합니다. 
 
 ![image](https://d1.awsstatic.com/tmt/build-train-deploy-machine-learning-model-sagemaker/build-train-deploy-machine-learning-model-sagemaker-2a.11efeb24074ebbfea5a13b30b6365ef830f29fd2.png)
@@ -56,6 +59,7 @@ SageMaker: Starting XGBoost with SageMaker V2.24
 노트북 인스턴스는 2분 이내에 Pending에서 InService 상태로 변경됩니다.
 
 ![image](https://d1.awsstatic.com/tmt/build-train-deploy-machine-learning-model-sagemaker/build-train-deploy-machine-learning-model-sagemaker-2e.c84bd2b699c3edd28ee163b29d103ccf6b5b5ceb.png)
+
 
 
 # 3단계. 데이터 준비
