@@ -110,7 +110,7 @@ print("Success - the MySageMakerInstance is in the " + my_region + " region. You
 
 [실행]을 선택합니다. 성공 메시지가 수신되지 않으면 버킷 이름을 변경하고 다시 시도하십시오.
 
-```
+```python
 bucket_name = 'your-s3-bucket-name' # <--- CHANGE THIS VARIABLE TO A UNIQUE NAME FOR YOUR BUCKET
 s3 = boto3.resource('s3')
 try:
@@ -126,7 +126,7 @@ except Exception as e:
 ![image](https://d1.awsstatic.com/tmt/build-train-deploy-machine-learning-model-sagemaker/build-train-deploy-machine-learning-model-sagemaker-3d.3f247363daba965d8cd4eae4515b78e8a62c4faf.png)
 
 3e. 다음으로는 데이터를 Amazon SageMaker 인스턴스에 다운로드하고 데이터 프레임에 로드해야 합니다. 다음 코드를 복사하고 [실행]합니다.
-```
+```python
 try:
   urllib.request.urlretrieve ("https://d1.awsstatic.com/tmt/build-train-deploy-machine-learning-model-sagemaker/bank_clean.27f01fbbdf43271788427f3682996ae29ceca05d.csv", "bank_clean.csv")
   print('Success: downloaded bank_clean.csv.')
@@ -150,7 +150,7 @@ except Exception as e:
 테스트 데이터(고객의 나머지 30%)는 모델의 성능을 평가하고 훈련된 모델이 처음 보는 데이터를 일반화하는 성능을 평가하는 데 사용됩니다.
 
 다음 코드를 새 코드 셀에 복사하고 [실행]을 선택하여 데이터를 셔플 및 분할합니다.
-```
+```python
 train_data, test_data = np.split(model_data.sample(frac=1, random_state=1729), [int(0.7 * len(model_data))])
 print(train_data.shape, test_data.shape)
 ```
@@ -163,14 +163,14 @@ print(train_data.shape, test_data.shape)
 4a. Amazon SageMaker의 사전 구축된 XGBoost 모델을 사용하려면 훈련 데이터의 헤더와 첫 번째 열의 형식을 다시 지정하고 S3 버킷에서 데이터를 로드해야 합니다.
 
 다음 코드를 새 코드 셀에 복사하고 [실행]을 선택하여 데이터의 형식을 새로 지정하고 데이터를 로드합니다.
-```
+```python
 pd.concat([train_data['y_yes'], train_data.drop(['y_no', 'y_yes'], axis=1)], axis=1).to_csv('train.csv', index=False, header=False)
 boto3.Session().resource('s3').Bucket(bucket_name).Object(os.path.join(prefix, 'train/train.csv')).upload_file('train.csv')
 s3_input_train = sagemaker.inputs.TrainingInput(s3_data='s3://{}/{}/train'.format(bucket_name, prefix), content_type='csv')
 ```
 
 4b. 그다음에는 Amazon SageMaker 세션을 설정하고, XGBoost 모델(추정 도구)의 인스턴스를 생성하고, 모델의 하이퍼파라미터를 정의해야 합니다. 다음 코드를 새 코드 셀에 복사하고 [실행]을 선택합니다.
-```
+```python
 sess = sagemaker.Session()
 xgb = sagemaker.estimator.Estimator(containers[my_region],role, instance_count=1, instance_type='ml.m4.xlarge',output_path='s3://{}/{}/output'.format(bucket_name, prefix),sagemaker_session=sess)
 xgb.set_hyperparameters(max_depth=5,eta=0.2,gamma=4,min_child_weight=6,subsample=0.8,silent=0,objective='binary:logistic',num_round=100)
@@ -178,7 +178,7 @@ xgb.set_hyperparameters(max_depth=5,eta=0.2,gamma=4,min_child_weight=6,subsample
 4c. 데이터를 로드하고 XGBoost 추정 도구를 설정하고 나면, 다음 코드를 새 코드 셀에 복사하고 [실행]을 선택해서 ml.m4.xlarge 인스턴스에서 기울기 최적화로 모델을 훈련합니다.
 
 몇 분 후에 훈련 로그가 생성되는 것이 보입니다.
-```
+```python
 xgb.fit({'train': s3_input_train})
 ```
 ![image](https://d1.awsstatic.com/tmt/build-train-deploy-machine-learning-model-sagemaker/build-train-deploy-machine-learning-model-sagemaker-4c.baa37d5c6f44f0dbf76d9c0e86140673be1adb34.png)
@@ -186,13 +186,13 @@ xgb.fit({'train': s3_input_train})
 # 5단계. 모델 배포
 ## 이 단계에서는 훈련된 모델을 엔드포인트로 배포하고, CSV 데이터의 형식을 다시 지정하여 로드한 다음에는, 모델을 실행하여 예측을 생성합니다.
 5a. 서버에 모델을 배포하고 액세스할 수 있는 엔드포인트를 생성하려면 다음 코드를 다음 코드 셀에 복사하고 [실행]을 선택합니다.
-```
+```python
 xgb_predictor = xgb.deploy(initial_instance_count=1,instance_type='ml.m4.xlarge')
 ```
 ![image](https://d1.awsstatic.com/tmt/build-train-deploy-machine-learning-model-sagemaker/build-train-deploy-machine-learning-model-sagemaker-5a.18aa4545125b2f1bb01871be9b73e4b723b66334.png)
 
 5b. 테스트 데이터의 고객이 은행 상품에 가입했는지 예측하려면 다음 코드를 다음 코드 셀에 복사하고 [실행]을 선택합니다.
-```
+```python
 test_data_array = test_data.drop(['y_no', 'y_yes'], axis=1).values #load the data into an array
 xgb_predictor.content_type = 'text/csv' # set the data type for an inference
 xgb_predictor.serializer = csv_serializer # set the serializer type
@@ -209,7 +209,7 @@ print(predictions_array.shape)
 
 예측에 기반하여 테스트 데이터에서 고객의 90%가 정확하게 예금 증서에 가입할 것으로 예측된다는 결론을 내릴 수 있습니다. 가입 고객에 대한 정밀도는 65%(278/429), 가입하지 않은 고객에 대한 정밀도는 90%(10,785/11,928)입니다.
 
-```
+```python
 cm = pd.crosstab(index=test_data['y_yes'], columns=np.round(predictions_array), rownames=['Observed'], colnames=['Predicted'])
 tn = cm.iloc[0,0]; fn = cm.iloc[1,0]; tp = cm.iloc[1,1]; fp = cm.iloc[0,1]; p = (tp+tn)/(tp+tn+fp+fn)*100
 print("\n{0:<20}{1:<4.1f}%\n".format("Overall Classification Rate: ", p))
@@ -226,7 +226,7 @@ print("{0:<16}{1:<1.0f}% ({2:<}){3:>7.0f}% ({4:<}) \n".format("Purchase", fn/(tn
 
 중요: 현재 사용되지 않는 리소스를 종료하면 비용이 절감되므로 권장됩니다. 리소스를 종료하지 않으면 요금이 부과됩니다.
 7a. S3 버킷에서 Amazon SageMaker 엔드포인트와 객체를 삭제하려면 다음 코드를 복사해서 붙여넣고 [실행]합니다.  
-```
+```python
 sagemaker.Session().delete_endpoint(xgb_predictor.endpoint)
 bucket_to_delete = boto3.resource('s3').Bucket(bucket_name)
 bucket_to_delete.objects.all().delete()
