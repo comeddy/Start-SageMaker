@@ -119,4 +119,63 @@ except Exception as e:
     print('S3 error: ',e)
 ```
 
-![image](https://aws.amazon.com/ko/getting-started/hands-on/build-train-deploy-machine-learning-model-sagemaker/?nc1=h_ls#)
+![image](https://d1.awsstatic.com/tmt/build-train-deploy-machine-learning-model-sagemaker/build-train-deploy-machine-learning-model-sagemaker-3d.3f247363daba965d8cd4eae4515b78e8a62c4faf.png)
+
+3e. 다음으로는 데이터를 Amazon SageMaker 인스턴스에 다운로드하고 데이터 프레임에 로드해야 합니다. 다음 코드를 복사하고 [실행]합니다.
+```
+try:
+  urllib.request.urlretrieve ("https://d1.awsstatic.com/tmt/build-train-deploy-machine-learning-model-sagemaker/bank_clean.27f01fbbdf43271788427f3682996ae29ceca05d.csv", "bank_clean.csv")
+  print('Success: downloaded bank_clean.csv.')
+except Exception as e:
+  print('Data load error: ',e)
+
+try:
+  model_data = pd.read_csv('./bank_clean.csv',index_col=0)
+  print('Success: Data loaded into dataframe.')
+except Exception as e:
+    print('Data load error: ',e)
+```
+
+![image](https://d1.awsstatic.com/tmt/build-train-deploy-machine-learning-model-sagemaker/build-train-deploy-machine-learning-model-sagemaker-3e.1369a8fd157570da9f508cebcad8614c6853d378.png)
+
+
+3f. 이제 데이터를 셔플하고 훈련 데이터와 테스트 데이터로 나눕니다.
+
+훈련 데이터(고객의 70%)는 모델 훈련 루프에서 사용됩니다. 기울기 기반 최적화를 사용하여 모델 파라미터를 반복적으로 개선합니다. 기울기 기반 최적화는 모델 손실 함수의 기울기를 사용하여 모델 오류를 최소화하는 모델 파라미터값을 찾는 방법입니다.
+
+테스트 데이터(고객의 나머지 30%)는 모델의 성능을 평가하고 훈련된 모델이 처음 보는 데이터를 일반화하는 성능을 평가하는 데 사용됩니다.
+
+다음 코드를 새 코드 셀에 복사하고 [실행]을 선택하여 데이터를 셔플 및 분할합니다.
+```
+train_data, test_data = np.split(model_data.sample(frac=1, random_state=1729), [int(0.7 * len(model_data))])
+print(train_data.shape, test_data.shape)
+```
+![image](https://d1.awsstatic.com/tmt/build-train-deploy-machine-learning-model-sagemaker/build-train-deploy-machine-learning-model-sagemaker-3f.501bd114f22a4d0aec64cf6393914db22c904c04.png)
+
+
+# 4단계. 데이터에서 모델 훈련
+## 이 단계에서는 훈련 데이터 세트로 기계 학습 모델을 훈련합니다. 
+
+4a. Amazon SageMaker의 사전 구축된 XGBoost 모델을 사용하려면 훈련 데이터의 헤더와 첫 번째 열의 형식을 다시 지정하고 S3 버킷에서 데이터를 로드해야 합니다.
+
+다음 코드를 새 코드 셀에 복사하고 [실행]을 선택하여 데이터의 형식을 새로 지정하고 데이터를 로드합니다.
+```
+pd.concat([train_data['y_yes'], train_data.drop(['y_no', 'y_yes'], axis=1)], axis=1).to_csv('train.csv', index=False, header=False)
+boto3.Session().resource('s3').Bucket(bucket_name).Object(os.path.join(prefix, 'train/train.csv')).upload_file('train.csv')
+s3_input_train = sagemaker.inputs.TrainingInput(s3_data='s3://{}/{}/train'.format(bucket_name, prefix), content_type='csv')
+```
+
+4b. 그다음에는 Amazon SageMaker 세션을 설정하고, XGBoost 모델(추정 도구)의 인스턴스를 생성하고, 모델의 하이퍼파라미터를 정의해야 합니다. 다음 코드를 새 코드 셀에 복사하고 [실행]을 선택합니다.
+```
+sess = sagemaker.Session()
+xgb = sagemaker.estimator.Estimator(containers[my_region],role, instance_count=1, instance_type='ml.m4.xlarge',output_path='s3://{}/{}/output'.format(bucket_name, prefix),sagemaker_session=sess)
+xgb.set_hyperparameters(max_depth=5,eta=0.2,gamma=4,min_child_weight=6,subsample=0.8,silent=0,objective='binary:logistic',num_round=100)
+```
+4c. 데이터를 로드하고 XGBoost 추정 도구를 설정하고 나면, 다음 코드를 새 코드 셀에 복사하고 [실행]을 선택해서 ml.m4.xlarge 인스턴스에서 기울기 최적화로 모델을 훈련합니다.
+
+몇 분 후에 훈련 로그가 생성되는 것이 보입니다.
+```
+xgb.fit({'train': s3_input_train})
+```
+![image](https://d1.awsstatic.com/tmt/build-train-deploy-machine-learning-model-sagemaker/build-train-deploy-machine-learning-model-sagemaker-4c.baa37d5c6f44f0dbf76d9c0e86140673be1adb34.png)
+
