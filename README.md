@@ -20,4 +20,5 @@
 1단계. Amazon SageMaker 콘솔 열기
 Amazon SageMaker 콘솔로 이동합니다.
 여기를 클릭하면 AWS Management Console이 새 창에서 열리므로 이 단계별 안내서를 계속 열어 놓을 수 있습니다. 검색창에 SageMaker를 입력하고 Amazon SageMaker를 선택해서 서비스 콘솔을 엽니다.
-https://d1.awsstatic.com/tmt/build-train-deploy-machine-learning-model-sagemaker/build-train-deploy-machine-learning-model-sagemaker-1.dc780f9c52f4be8442c3ffdb735606bb51ca6e5d.png
+
+![image](https://d1.awsstatic.com/tmt/build-train-deploy-machine-learning-model-sagemaker/build-train-deploy-machine-learning-model-sagemaker-1.dc780f9c52f4be8442c3ffdb735606bb51ca6e5d.png)
