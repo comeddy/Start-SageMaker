@@ -1,13 +1,7 @@
-<img src="http://mypy-lang.org/static/mypy_light.svg" alt="mypy logo" width="300px"/>
 
-Mypy: Optional Static Typing for Python
+SageMaker: Starting XGBoost with SageMaker V2.24
 =======================================
-
-[![Build Status](https://api.travis-ci.com/python/mypy.svg?branch=master)](https://travis-ci.com/python/mypy)
-[![Chat at https://gitter.im/python/typing](https://badges.gitter.im/python/typing.svg)](https://gitter.im/python/typing?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-[![Checked with mypy](http://www.mypy-lang.org/static/mypy_badge.svg)](http://mypy-lang.org/)
-
-# Start-SageMaker
+ 
 이 자습서에서는 Amazon SageMaker를 사용하여 기계 학습(ML) 모델을 구축, 훈련 및 배포하는 방법을 알려드립니다. 이 실습에서는 일반적으로 사용하는 XGBoost ML 알고리즘을 사용합니다. Amazon SageMaker는 개발자와 데이터 과학자가 대규모로 기계 학습 모델을 구축, 훈련 및 배포할 수 있는 완전 관리형 모듈식 기계 학습 서비스입니다.
 
 일반적으로 기계 학습 모델을 개념화에서부터 프로덕션까지 진행시키는 작업은 복잡하고 시간이 오래 걸립니다. 모델을 훈련하기 위한 대량의 데이터를 관리하고, 훈련에 가장 적합한 알고리즘을 선택하고, 훈련하는 도중에 컴퓨팅 용량을 관리하고, 나중에는 모델을 프로덕션 환경에 배포해야 합니다. Amazon SageMaker는 기계 학습 모델을 훨씬 간편하게 구축 및 배포함으로써 이러한 복잡성을 낮춥니다. 다양한 옵션 중에서 적절한 알고리즘과 프레임워크를 선택하고 나면, Amazon SageMaker가 모델을 페타바이트 규모로 훈련하기 위한 모든 기본 인프라를 관리하고 프로덕션에 배포합니다.
@@ -84,6 +78,7 @@ pip install --upgrade sagemaker
 코드가 실행되는 동안 오른쪽의 첫 번째 스크린샷에 나타난 것과 같이 꺾쇠괄호 사이에 *가 표시됩니다. 몇 초 후에 코드 실행이 완료되고 *가 1로 대체되며, 오른쪽 두 번째 스크린샷에 나타난 것과 같이 성공 메시지가 표시됩니다. 
 
 ```python
+
 # import libraries
 import boto3, re, sys, math, json, os, sagemaker, urllib.request
 from sagemaker import get_execution_role
