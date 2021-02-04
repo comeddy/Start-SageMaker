@@ -64,15 +64,15 @@ SageMaker: Starting XGBoost with SageMaker V2.24
 
 # 3단계. 데이터 준비
 ## 이 단계에서는 Amazon SageMaker 노트북을 사용하여 기계 학습 모델을 훈련하는 데 필요한 데이터를 미리 처리합니다.
-3a. 노트북 인스턴스 페이지에서 MySageMakerInstance가 Pending에서InService 상태로 전환되기를 기다립니다.
+#### 3a. 노트북 인스턴스 페이지에서 MySageMakerInstance가 Pending에서InService 상태로 전환되기를 기다립니다.
 상태가 InService로 전환되면 MySageMakerInstance를 선택하고 [작업] 드롭다운 메뉴를 사용하거나 InService 상태 옆에 있는 [Jupyter 열기]를 선택하여 엽니다.
 
 ![image](https://d1.awsstatic.com/tmt/build-train-deploy-machine-learning-model-sagemaker/build-train-deploy-machine-learning-model-sagemaker-3a.21995698e9c81a8a0ecf5466e123d5e644920127.png)
 
-3b. Jupyter가 열리면 [파일] 탭에서 [새로 만들기]를 선택한 다음, conda_python3를 선택합니다. 
+#### 3b. Jupyter가 열리면 [파일] 탭에서 [새로 만들기]를 선택한 다음, conda_python3를 선택합니다. 
 ![image](https://d1.awsstatic.com/tmt/build-train-deploy-machine-learning-model-sagemaker/build-train-deploy-machine-learning-model-sagemaker-3b.47cf0be32a098e2998ddb31d9dc3f07436ebebeb.png)
 
-3c. 데이터를 준비하고, 기계 학습 모델을 훈련하여 배포하려면 Jupyter 노트북 환경에 몇 가지 라이브러리를 가져와서 몇 가지 환경 변수를 정의해야 합니다. 다음의 코드를 인스턴스의 코드 셀에 복사하고 [실행]을 선택합니다.
+#### 3c. 데이터를 준비하고, 기계 학습 모델을 훈련하여 배포하려면 Jupyter 노트북 환경에 몇 가지 라이브러리를 가져와서 몇 가지 환경 변수를 정의해야 합니다. 다음의 코드를 인스턴스의 코드 셀에 복사하고 [실행]을 선택합니다.
 
 최신 버전으로 인스톨합니다.
 ```python
@@ -111,7 +111,7 @@ print("Success - the MySageMakerInstance is in the " + my_region + " region. You
 ![image](https://d1.awsstatic.com/tmt/build-train-deploy-machine-learning-model-sagemaker/build-train-deploy-machine-learning-model-sagemaker-3c-2.ac780bcdbc5eb1e86775bcf3b971d4663bcbca41.png)
 
 
-3d. 이 단계에서는 이 자습서에서 데이터를 저장할 S3 버킷을 생성합니다.
+#### 3d. 이 단계에서는 이 자습서에서 데이터를 저장할 S3 버킷을 생성합니다.
 
 다음의 코드를 노트북의 다음 코드 셀에 복사하고 S3 버킷의 이름을 고유하게 변경합니다. S3 버킷 이름은 전체적으로 중복이 없어야 하며 그 외에 다른 제한 사항이 있습니다.
 
@@ -132,7 +132,7 @@ except Exception as e:
 
 ![image](https://d1.awsstatic.com/tmt/build-train-deploy-machine-learning-model-sagemaker/build-train-deploy-machine-learning-model-sagemaker-3d.3f247363daba965d8cd4eae4515b78e8a62c4faf.png)
 
-3e. 다음으로는 데이터를 Amazon SageMaker 인스턴스에 다운로드하고 데이터 프레임에 로드해야 합니다. 다음 코드를 복사하고 [실행]합니다.
+#### 3e. 다음으로는 데이터를 Amazon SageMaker 인스턴스에 다운로드하고 데이터 프레임에 로드해야 합니다. 다음 코드를 복사하고 [실행]합니다.
 ```python
 try:
   urllib.request.urlretrieve ("https://d1.awsstatic.com/tmt/build-train-deploy-machine-learning-model-sagemaker/bank_clean.27f01fbbdf43271788427f3682996ae29ceca05d.csv", "bank_clean.csv")
@@ -150,7 +150,7 @@ except Exception as e:
 ![image](https://d1.awsstatic.com/tmt/build-train-deploy-machine-learning-model-sagemaker/build-train-deploy-machine-learning-model-sagemaker-3e.1369a8fd157570da9f508cebcad8614c6853d378.png)
 
 
-3f. 이제 데이터를 셔플하고 훈련 데이터와 테스트 데이터로 나눕니다.
+#### 3f. 이제 데이터를 셔플하고 훈련 데이터와 테스트 데이터로 나눕니다.
 
 훈련 데이터(고객의 70%)는 모델 훈련 루프에서 사용됩니다. 기울기 기반 최적화를 사용하여 모델 파라미터를 반복적으로 개선합니다. 기울기 기반 최적화는 모델 손실 함수의 기울기를 사용하여 모델 오류를 최소화하는 모델 파라미터값을 찾는 방법입니다.
 
@@ -167,7 +167,7 @@ print(train_data.shape, test_data.shape)
 # 4단계. 데이터에서 모델 훈련
 ## 이 단계에서는 훈련 데이터 세트로 기계 학습 모델을 훈련합니다. 
 
-4a. Amazon SageMaker의 사전 구축된 XGBoost 모델을 사용하려면 훈련 데이터의 헤더와 첫 번째 열의 형식을 다시 지정하고 S3 버킷에서 데이터를 로드해야 합니다.
+#### 4a. Amazon SageMaker의 사전 구축된 XGBoost 모델을 사용하려면 훈련 데이터의 헤더와 첫 번째 열의 형식을 다시 지정하고 S3 버킷에서 데이터를 로드해야 합니다.
 
 다음 코드를 새 코드 셀에 복사하고 [실행]을 선택하여 데이터의 형식을 새로 지정하고 데이터를 로드합니다.
 ```python
@@ -176,13 +176,13 @@ boto3.Session().resource('s3').Bucket(bucket_name).Object(os.path.join(prefix, '
 s3_input_train = sagemaker.inputs.TrainingInput(s3_data='s3://{}/{}/train'.format(bucket_name, prefix), content_type='csv')
 ```
 
-4b. 그다음에는 Amazon SageMaker 세션을 설정하고, XGBoost 모델(추정 도구)의 인스턴스를 생성하고, 모델의 하이퍼파라미터를 정의해야 합니다. 다음 코드를 새 코드 셀에 복사하고 [실행]을 선택합니다.
+#### 4b. 그다음에는 Amazon SageMaker 세션을 설정하고, XGBoost 모델(추정 도구)의 인스턴스를 생성하고, 모델의 하이퍼파라미터를 정의해야 합니다. 다음 코드를 새 코드 셀에 복사하고 [실행]을 선택합니다.
 ```python
 sess = sagemaker.Session()
 xgb = sagemaker.estimator.Estimator(containers[my_region],role, instance_count=1, instance_type='ml.m4.xlarge',output_path='s3://{}/{}/output'.format(bucket_name, prefix),sagemaker_session=sess)
 xgb.set_hyperparameters(max_depth=5,eta=0.2,gamma=4,min_child_weight=6,subsample=0.8,silent=0,objective='binary:logistic',num_round=100)
 ```
-4c. 데이터를 로드하고 XGBoost 추정 도구를 설정하고 나면, 다음 코드를 새 코드 셀에 복사하고 [실행]을 선택해서 ml.m4.xlarge 인스턴스에서 기울기 최적화로 모델을 훈련합니다.
+#### 4c. 데이터를 로드하고 XGBoost 추정 도구를 설정하고 나면, 다음 코드를 새 코드 셀에 복사하고 [실행]을 선택해서 ml.m4.xlarge 인스턴스에서 기울기 최적화로 모델을 훈련합니다.
 
 몇 분 후에 훈련 로그가 생성되는 것이 보입니다.
 ```python
@@ -192,13 +192,13 @@ xgb.fit({'train': s3_input_train})
 
 # 5단계. 모델 배포
 ## 이 단계에서는 훈련된 모델을 엔드포인트로 배포하고, CSV 데이터의 형식을 다시 지정하여 로드한 다음에는, 모델을 실행하여 예측을 생성합니다.
-5a. 서버에 모델을 배포하고 액세스할 수 있는 엔드포인트를 생성하려면 다음 코드를 다음 코드 셀에 복사하고 [실행]을 선택합니다.
+#### 5a. 서버에 모델을 배포하고 액세스할 수 있는 엔드포인트를 생성하려면 다음 코드를 다음 코드 셀에 복사하고 [실행]을 선택합니다.
 ```python
 xgb_predictor = xgb.deploy(initial_instance_count=1,instance_type='ml.m4.xlarge')
 ```
 ![image](https://d1.awsstatic.com/tmt/build-train-deploy-machine-learning-model-sagemaker/build-train-deploy-machine-learning-model-sagemaker-5a.18aa4545125b2f1bb01871be9b73e4b723b66334.png)
 
-5b. 테스트 데이터의 고객이 은행 상품에 가입했는지 예측하려면 다음 코드를 다음 코드 셀에 복사하고 [실행]을 선택합니다.
+#### 5b. 테스트 데이터의 고객이 은행 상품에 가입했는지 예측하려면 다음 코드를 다음 코드 셀에 복사하고 [실행]을 선택합니다.
 ```python
 test_data_array = test_data.drop(['y_no', 'y_yes'], axis=1).values #load the data into an array
 xgb_predictor.content_type = 'text/csv' # set the data type for an inference
@@ -212,7 +212,7 @@ print(predictions_array.shape)
 
 # 6단계. 모델 성능 평가
 ## 이 단계에서는 기계 학습 모델의 성능과 정확도를 평가합니다.
-6a. 아래의 코드를 복사하여 붙여넣고 [실행]을 선택하여 오차 행렬이라는 테이블에서 실제 값과 예측값을 비교합니다.
+#### 6a. 아래의 코드를 복사하여 붙여넣고 [실행]을 선택하여 오차 행렬이라는 테이블에서 실제 값과 예측값을 비교합니다.
 
 예측에 기반하여 테스트 데이터에서 고객의 90%가 정확하게 예금 증서에 가입할 것으로 예측된다는 결론을 내릴 수 있습니다. 가입 고객에 대한 정밀도는 65%(278/429), 가입하지 않은 고객에 대한 정밀도는 90%(10,785/11,928)입니다.
 
@@ -232,7 +232,7 @@ print("{0:<16}{1:<1.0f}% ({2:<}){3:>7.0f}% ({4:<}) \n".format("Purchase", fn/(tn
 ## 이 단계에서는 Amazon SageMaker 관련 리소스를 종료합니다.
 
 중요: 현재 사용되지 않는 리소스를 종료하면 비용이 절감되므로 권장됩니다. 리소스를 종료하지 않으면 요금이 부과됩니다.
-7a. S3 버킷에서 Amazon SageMaker 엔드포인트와 객체를 삭제하려면 다음 코드를 복사해서 붙여넣고 [실행]합니다.  
+#### 7a. S3 버킷에서 Amazon SageMaker 엔드포인트와 객체를 삭제하려면 다음 코드를 복사해서 붙여넣고 [실행]합니다.  
 ```python
 sagemaker.Session().delete_endpoint(xgb_predictor.endpoint)
 bucket_to_delete = boto3.resource('s3').Bucket(bucket_name)
