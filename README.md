@@ -79,6 +79,9 @@ SageMaker: Starting XGBoost with SageMaker V2.24
 pip install --upgrade sagemaker
 ```
 
+노트북 커널을 리스트합니다.
+![image](./img/restart.png)
+
 코드가 실행되는 동안 오른쪽의 첫 번째 스크린샷에 나타난 것과 같이 꺾쇠괄호 사이에 *가 표시됩니다. 몇 초 후에 코드 실행이 완료되고 *가 1로 대체되며, 오른쪽 두 번째 스크린샷에 나타난 것과 같이 성공 메시지가 표시됩니다. 
 
 ```python
