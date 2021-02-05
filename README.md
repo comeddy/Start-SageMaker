@@ -117,7 +117,7 @@ print("Success - the MySageMakerInstance is in the " + my_region + " region. You
 
 다음의 코드를 노트북의 다음 코드 셀에 복사하고 S3 버킷의 이름을 고유하게 변경합니다. S3 버킷 이름은 전체적으로 중복이 없어야 하며 그 외에 다른 제한 사항이 있습니다.
 
-[실행]을 선택합니다. 성공 메시지가 수신되지 않으면 **버킷이름을 변경(e.g. you-s3-bucket-name)** 하고 다시 시도하십시오.
+[실행]을 선택합니다. 성공 메시지가 수신되지 않으면 **버킷이름을 변경(e.g. xgboost-imd-이름)** 하고 다시 시도하십시오.
 
 ```python
 bucket_name = 'your-s3-bucket-name' # <--- CHANGE THIS VARIABLE TO A UNIQUE NAME FOR YOUR BUCKET
