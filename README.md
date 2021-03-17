@@ -85,6 +85,11 @@ pip install --upgrade sagemaker
 노트북 커널을 리스트합니다.
 ![image](./img/restart.png)
 
+아래 코드를 차례대로 실행합니다. 혹시 AWS는 해당 지역에 공개적으로 나열된 컨테이너가 없는 경우 ECR을 사용하여 AWS에 컨테이너를 직접 등록 할 수 있습니다. AWS CLI 및 Docker 로그인을 사용하여 ECR에 로그인해야합니다. (예, ap-northeast-1 경우) 
+```
+aws ecr get-login --region ap-northeast-1
+```
+
 코드가 실행되는 동안 오른쪽의 첫 번째 스크린샷에 나타난 것과 같이 꺾쇠괄호 사이에 *가 표시됩니다. 몇 초 후에 코드 실행이 완료되고 *가 1로 대체되며, 오른쪽 두 번째 스크린샷에 나타난 것과 같이 성공 메시지가 표시됩니다. 
 
 ```python
@@ -106,7 +111,8 @@ prefix = 'sagemaker/DEMO-xgboost-dm'
 containers = {'us-west-2': '433757028032.dkr.ecr.us-west-2.amazonaws.com/xgboost:latest',
               'us-east-1': '811284229777.dkr.ecr.us-east-1.amazonaws.com/xgboost:latest',
               'us-east-2': '825641698319.dkr.ecr.us-east-2.amazonaws.com/xgboost:latest',
-              'eu-west-1': '685385470294.dkr.ecr.eu-west-1.amazonaws.com/xgboost:latest'} # each region has its XGBoost container
+              'eu-west-1': '685385470294.dkr.ecr.eu-west-1.amazonaws.com/xgboost:latest',
+              'ap-northeast-2':'600282015492.dkr.ecr.ap-northeast-2.amazonaws.com:latest'} # each region has its XGBoost container
 my_region = boto3.session.Session().region_name # set the region of the instance
 print("Success - the MySageMakerInstance is in the " + my_region + " region. You will use the " + containers[my_region] + " container for your SageMaker endpoint.")
 ```
