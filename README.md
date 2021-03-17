@@ -85,10 +85,7 @@ pip install --upgrade sagemaker
 노트북 커널을 리스트합니다.
 ![image](./img/restart.png)
 
-아래 코드를 차례대로 실행합니다. 혹시 AWS는 해당 지역에 공개적으로 나열된 컨테이너가 없는 경우 ECR을 사용하여 AWS에 컨테이너를 직접 등록 할 수 있습니다. AWS CLI 및 Docker 로그인을 사용하여 ECR에 로그인해야합니다. (예, ap-northeast-1 경우) 
-```
-aws ecr get-login --region ap-northeast-1
-```
+아래 코드를 차례대로 실행합니다.
 
 코드가 실행되는 동안 오른쪽의 첫 번째 스크린샷에 나타난 것과 같이 꺾쇠괄호 사이에 *가 표시됩니다. 몇 초 후에 코드 실행이 완료되고 *가 1로 대체되며, 오른쪽 두 번째 스크린샷에 나타난 것과 같이 성공 메시지가 표시됩니다. 
 
@@ -118,6 +115,11 @@ print("Success - the MySageMakerInstance is in the " + my_region + " region. You
 ```
 ![image](https://d1.awsstatic.com/tmt/build-train-deploy-machine-learning-model-sagemaker/build-train-deploy-machine-learning-model-sagemaker-3c-1.11d4eef04bcf0c6a2d097df74835f1fa8b958cf5.png)
 ![image](https://d1.awsstatic.com/tmt/build-train-deploy-machine-learning-model-sagemaker/build-train-deploy-machine-learning-model-sagemaker-3c-2.ac780bcdbc5eb1e86775bcf3b971d4663bcbca41.png)
+
+주의! AWS는 해당 지역에 공개적으로 나열된 컨테이너가 없는 경우 ECR을 사용하여 AWS에 컨테이너를 직접 등록 할 수 있습니다. AWS CLI 및 Docker 로그인을 사용하여 ECR에 로그인해야합니다. (예, ap-northeast-1 경우) 
+```
+aws ecr get-login --region ap-northeast-1
+```
 
 
 #### 3d. 이 단계에서는 이 자습서에서 데이터를 저장할 S3 버킷을 생성합니다.
