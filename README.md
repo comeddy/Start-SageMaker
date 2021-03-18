@@ -23,7 +23,7 @@ SageMaker: Starting XGBoost with SageMaker V2.24
 
 # 1단계. Amazon SageMaker 콘솔 열기
 ## Amazon SageMaker 콘솔로 이동합니다.
-여기를 클릭하면 AWS Management Console이 새 창에서 열리므로 이 단계별 안내서를 계속 열어 놓을 수 있습니다. 검색창에 SageMaker를 입력하고 Amazon SageMaker를 선택해서 서비스 콘솔을 엽니다.
+여기를 클릭하면 AWS Management Console이 새 창에서 열리므로 이 단계별 안내서를 계속 열어 놓을 수 있습니다. 검색창에 SageMaker를 입력하고 Amazon SageMaker를 선택해서 서비스 콘솔을 엽니다.(추천리전: 오레곤, 버지니아, 오하이오, 캘리포니아)
 
 ![image](https://d1.awsstatic.com/tmt/build-train-deploy-machine-learning-model-sagemaker/build-train-deploy-machine-learning-model-sagemaker-1.dc780f9c52f4be8442c3ffdb735606bb51ca6e5d.png)
 
@@ -108,18 +108,13 @@ prefix = 'sagemaker/DEMO-xgboost-dm'
 containers = {'us-west-2': '433757028032.dkr.ecr.us-west-2.amazonaws.com/xgboost:latest',
               'us-east-1': '811284229777.dkr.ecr.us-east-1.amazonaws.com/xgboost:latest',
               'us-east-2': '825641698319.dkr.ecr.us-east-2.amazonaws.com/xgboost:latest',
-              'eu-west-1': '685385470294.dkr.ecr.eu-west-1.amazonaws.com/xgboost:latest',
-              'ap-northeast-2':'600282015492.dkr.ecr.ap-northeast-2.amazonaws.com:latest'} # each region has its XGBoost container
+              'eu-west-1': '685385470294.dkr.ecr.eu-west-1.amazonaws.com/xgboost:latest'
+              } # each region has its XGBoost container
 my_region = boto3.session.Session().region_name # set the region of the instance
 print("Success - the MySageMakerInstance is in the " + my_region + " region. You will use the " + containers[my_region] + " container for your SageMaker endpoint.")
 ```
 ![image](https://d1.awsstatic.com/tmt/build-train-deploy-machine-learning-model-sagemaker/build-train-deploy-machine-learning-model-sagemaker-3c-1.11d4eef04bcf0c6a2d097df74835f1fa8b958cf5.png)
 ![image](https://d1.awsstatic.com/tmt/build-train-deploy-machine-learning-model-sagemaker/build-train-deploy-machine-learning-model-sagemaker-3c-2.ac780bcdbc5eb1e86775bcf3b971d4663bcbca41.png)
-
-주의! AWS는 해당 지역에 공개적으로 나열된 컨테이너가 없는 경우 ECR을 사용하여 AWS에 컨테이너를 직접 등록 할 수 있습니다. AWS CLI 및 Docker 로그인을 사용하여 ECR에 로그인해야합니다. (예, ap-northeast-2 경우) 
-```
-aws ecr get-login --region ap-northeast-2
-```
 
 
 #### 3d. 이 단계에서는 이 자습서에서 데이터를 저장할 S3 버킷을 생성합니다.
