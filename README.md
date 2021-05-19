@@ -77,7 +77,7 @@ SageMaker: Starting XGBoost with SageMaker V2.24
 
 최신 버전으로 인스톨합니다.
 ```python
-pip install --upgrade sagemaker
+!pip install --upgrade sagemaker
 ```
 다음과 같은 노트북셀에 입력하고 시작(shift+enter)합니다.
 ![image](./img/upgrade.png)
