@@ -185,8 +185,21 @@ s3_input_train = sagemaker.inputs.TrainingInput(s3_data='s3://{}/{}/train'.forma
 #### 4b. 그다음에는 Amazon SageMaker 세션을 설정하고, XGBoost 모델(추정 도구)의 인스턴스를 생성하고, 모델의 하이퍼파라미터를 정의해야 합니다. 다음 코드를 새 코드 셀에 복사하고 [실행]을 선택합니다.
 ```python
 sess = sagemaker.Session()
-xgb = sagemaker.estimator.Estimator(containers[my_region],role, instance_count=1, instance_type='ml.m4.xlarge',output_path='s3://{}/{}/output'.format(bucket_name, prefix),sagemaker_session=sess)
-xgb.set_hyperparameters(max_depth=5,eta=0.2,gamma=4,min_child_weight=6,subsample=0.8,silent=0,objective='binary:logistic',num_round=100)
+xgb = sagemaker.estimator.Estimator(containers[my_region],
+                                    role, 
+                                    instance_count=1, 
+                                    instance_type='ml.m4.xlarge',
+                                    output_path='s3://{}/{}/output'.format(bucket_name, prefix),
+                                    sagemaker_session=sess)
+                                    
+xgb.set_hyperparameters(max_depth=5,
+                        eta=0.2,
+                        gamma=4,
+                        min_child_weight=6,
+                        subsample=0.8,
+                        silent=0,
+                        objective='binary:logistic',
+                        num_round=100)
 ```
 #### 4c. 데이터를 로드하고 XGBoost 추정 도구를 설정하고 나면, 다음 코드를 새 코드 셀에 복사하고 [실행]을 선택해서 ml.m4.xlarge 인스턴스에서 기울기 최적화로 모델을 훈련합니다.
 
@@ -200,7 +213,8 @@ xgb.fit({'train': s3_input_train})
 ## 이 단계에서는 훈련된 모델을 엔드포인트로 배포하고, CSV 데이터의 형식을 다시 지정하여 로드한 다음에는, 모델을 실행하여 예측을 생성합니다.
 #### 5a. 서버에 모델을 배포하고 액세스할 수 있는 엔드포인트를 생성하려면 다음 코드를 다음 코드 셀에 복사하고 [실행]을 선택합니다.
 ```python
-xgb_predictor = xgb.deploy(initial_instance_count=1,instance_type='ml.m4.xlarge')
+xgb_predictor = xgb.deploy(initial_instance_count=1,
+                           instance_type='ml.m4.xlarge')
 ```
 ![image](https://d1.awsstatic.com/tmt/build-train-deploy-machine-learning-model-sagemaker/build-train-deploy-machine-learning-model-sagemaker-5a.18aa4545125b2f1bb01871be9b73e4b723b66334.png)
 
