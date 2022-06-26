@@ -43,25 +43,30 @@ SageMaker: Starting XGBoost with SageMaker V2.24
 
 노트북 인스턴스가 데이터에 액세스하고 안전하게 Amazon S3에 데이터를 업로드하도록 허용하려면 IAM 역할을 지정해야 합니다. [IAM 역할] 필드에서 [새 역할 생성]을 선택하고 Amazon SageMaker가 필수 권한을 가진 역할을 생성하고 인스턴스에 할당하도록 합니다. 또는, 계정에서 이를 위한 목적으로 사용할 기존의 IAM 역할을 선택할 수 있습니다.
 
-![image](https://d1.awsstatic.com/tmt/build-train-deploy-machine-learning-model-sagemaker/build-train-deploy-machine-learning-model-sagemaker-2b.de8d08c388a67802b1040a8b96613b4a24563283.png)
+<!-- ![image](https://d1.awsstatic.com/tmt/build-train-deploy-machine-learning-model-sagemaker/build-train-deploy-machine-learning-model-sagemaker-2b.de8d08c388a67802b1040a8b96613b4a24563283.png) -->
+![image](./img/2.png)
+
 
 #### 2c. [IAM 역할 생성] 상자에서 아무 S3 버킷을 선택합니다. Amazon SageMaker 인스턴스가 계정에 있는 모든 S3 버킷에 액세스하게 됩니다. 이 자습서 후반에서 새 S3 버킷을 생성할 예정입니다. 그러나 사용하려는 버킷이 있을 경우, 특정 S3 버킷을 선택하고 버킷 이름을 지정하십시오.
 [역할 생성]을 선택합니다.
 
-![image](https://d1.awsstatic.com/tmt/build-train-deploy-machine-learning-model-sagemaker/build-train-deploy-machine-learning-model-sagemaker-2c.5cff53255e3733e28b1bdc18610e7514f61bc193.png)
+<!-- ![image](https://d1.awsstatic.com/tmt/build-train-deploy-machine-learning-model-sagemaker/build-train-deploy-machine-learning-model-sagemaker-2c.5cff53255e3733e28b1bdc18610e7514f61bc193.png) -->
+![image](./img/3.png)
 
 #### 2d. Amazon SageMaker가 AmazonSageMaker-ExecutionRole-***이라는 역할을 생성한 것을 확인하십시오.
 
 이 자습서에서는 다른 필드에 기본값을 사용합니다. [노트북 인스턴스 생성]을 선택합니다.
 
-![image](https://d1.awsstatic.com/tmt/build-train-deploy-machine-learning-model-sagemaker/build-train-deploy-machine-learning-model-sagemaker-2d.04081f60f4a8bf23e1ed8529749a712d4f0f94de.png)
+<!-- ![image](https://d1.awsstatic.com/tmt/build-train-deploy-machine-learning-model-sagemaker/build-train-deploy-machine-learning-model-sagemaker-2d.04081f60f4a8bf23e1ed8529749a712d4f0f94de.png) -->
+![image](./img/4.png)
+
 
 #### 2e. 노트북 인스턴스 페이지에서 새 MySageMakerInstance 노트북 인스턴스가 Pending 상태여야 합니다.
 
 노트북 인스턴스는 2분 이내에 Pending에서 InService 상태로 변경됩니다.
 
-![image](https://d1.awsstatic.com/tmt/build-train-deploy-machine-learning-model-sagemaker/build-train-deploy-machine-learning-model-sagemaker-2e.c84bd2b699c3edd28ee163b29d103ccf6b5b5ceb.png)
-
+<!-- ![image](https://d1.awsstatic.com/tmt/build-train-deploy-machine-learning-model-sagemaker/build-train-deploy-machine-learning-model-sagemaker-2e.c84bd2b699c3edd28ee163b29d103ccf6b5b5ceb.png) -->
+![image](./img/5.png)
 
 
 # 3단계. 데이터 준비
@@ -69,10 +74,12 @@ SageMaker: Starting XGBoost with SageMaker V2.24
 #### 3a. 노트북 인스턴스 페이지에서 MySageMakerInstance가 Pending에서InService 상태로 전환되기를 기다립니다.
 상태가 InService로 전환되면 MySageMakerInstance를 선택하고 [작업] 드롭다운 메뉴를 사용하거나 InService 상태 옆에 있는 [Jupyter 열기]를 선택하여 엽니다.
 
-![image](https://d1.awsstatic.com/tmt/build-train-deploy-machine-learning-model-sagemaker/build-train-deploy-machine-learning-model-sagemaker-3a.21995698e9c81a8a0ecf5466e123d5e644920127.png)
+<!-- ![image](https://d1.awsstatic.com/tmt/build-train-deploy-machine-learning-model-sagemaker/build-train-deploy-machine-learning-model-sagemaker-3a.21995698e9c81a8a0ecf5466e123d5e644920127.png) -->
+![image](./img/6.png)
 
 #### 3b. Jupyter가 열리면 [파일] 탭에서 [새로 만들기]를 선택한 다음, conda_python3를 선택합니다. 
-![image](https://d1.awsstatic.com/tmt/build-train-deploy-machine-learning-model-sagemaker/build-train-deploy-machine-learning-model-sagemaker-3b.47cf0be32a098e2998ddb31d9dc3f07436ebebeb.png)
+<!-- ![image](https://d1.awsstatic.com/tmt/build-train-deploy-machine-learning-model-sagemaker/build-train-deploy-machine-learning-model-sagemaker-3b.47cf0be32a098e2998ddb31d9dc3f07436ebebeb.png) -->
+![image](./img/7.png)
 
 #### 3c. 데이터를 준비하고, 기계 학습 모델을 훈련하여 배포하려면 Jupyter 노트북 환경에 몇 가지 라이브러리를 가져와서 몇 가지 환경 변수를 정의해야 합니다. 다음의 코드를 인스턴스의 코드 셀에 복사하고 [실행]을 선택합니다.
 
