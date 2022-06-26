@@ -80,6 +80,7 @@ SageMaker: Starting XGBoost with SageMaker V2.24
 #### 3b. Jupyter가 열리면 [파일] 탭에서 [새로 만들기]를 선택한 다음, conda_python3를 선택합니다. 
 <!-- ![image](https://d1.awsstatic.com/tmt/build-train-deploy-machine-learning-model-sagemaker/build-train-deploy-machine-learning-model-sagemaker-3b.47cf0be32a098e2998ddb31d9dc3f07436ebebeb.png) -->
 ![image](./img/7.png)
+![image](./img/8.png)
 
 #### 3c. 데이터를 준비하고, 기계 학습 모델을 훈련하여 배포하려면 Jupyter 노트북 환경에 몇 가지 라이브러리를 가져와서 몇 가지 환경 변수를 정의해야 합니다. 다음의 코드를 인스턴스의 코드 셀에 복사하고 [실행]을 선택합니다.
 
@@ -88,10 +89,9 @@ SageMaker: Starting XGBoost with SageMaker V2.24
 !pip install --upgrade sagemaker
 ```
 다음과 같은 노트북셀에 입력하고 시작(shift+enter)합니다.
-![image](./img/8.png)
+![image](./img/9.png)
 
 노트북 커널을 리스트합니다.
-![image](./img/9.png)
 
 아래 코드를 차례대로 실행합니다.
 
@@ -121,9 +121,9 @@ containers = {'us-west-2': '433757028032.dkr.ecr.us-west-2.amazonaws.com/xgboost
 my_region = boto3.session.Session().region_name # set the region of the instance
 print("Success - the MySageMakerInstance is in the " + my_region + " region. You will use the " + containers[my_region] + " container for your SageMaker endpoint.")
 ```
-![image](https://d1.awsstatic.com/tmt/build-train-deploy-machine-learning-model-sagemaker/build-train-deploy-machine-learning-model-sagemaker-3c-1.11d4eef04bcf0c6a2d097df74835f1fa8b958cf5.png)
-![image](https://d1.awsstatic.com/tmt/build-train-deploy-machine-learning-model-sagemaker/build-train-deploy-machine-learning-model-sagemaker-3c-2.ac780bcdbc5eb1e86775bcf3b971d4663bcbca41.png)
-
+<!-- ![image](https://d1.awsstatic.com/tmt/build-train-deploy-machine-learning-model-sagemaker/build-train-deploy-machine-learning-model-sagemaker-3c-1.11d4eef04bcf0c6a2d097df74835f1fa8b958cf5.png) -->
+<!-- ![image](https://d1.awsstatic.com/tmt/build-train-deploy-machine-learning-model-sagemaker/build-train-deploy-machine-learning-model-sagemaker-3c-2.ac780bcdbc5eb1e86775bcf3b971d4663bcbca41.png) -->
+![image](./img/10.png)
 
 #### 3d. 이 단계에서는 이 자습서에서 데이터를 저장할 S3 버킷을 생성합니다.
 
@@ -144,7 +144,8 @@ except Exception as e:
     print('S3 error: ',e)
 ```
 
-![image](https://d1.awsstatic.com/tmt/build-train-deploy-machine-learning-model-sagemaker/build-train-deploy-machine-learning-model-sagemaker-3d.3f247363daba965d8cd4eae4515b78e8a62c4faf.png)
+<!-- ![image](https://d1.awsstatic.com/tmt/build-train-deploy-machine-learning-model-sagemaker/build-train-deploy-machine-learning-model-sagemaker-3d.3f247363daba965d8cd4eae4515b78e8a62c4faf.png) -->
+![image](./img/11.png)
 
 #### 3e. 다음으로는 데이터를 Amazon SageMaker 인스턴스에 다운로드하고 데이터 프레임에 로드해야 합니다. 다음 코드를 복사하고 [실행]합니다.
 ```python
@@ -161,8 +162,8 @@ except Exception as e:
     print('Data load error: ',e)
 ```
 
-![image](https://d1.awsstatic.com/tmt/build-train-deploy-machine-learning-model-sagemaker/build-train-deploy-machine-learning-model-sagemaker-3e.1369a8fd157570da9f508cebcad8614c6853d378.png)
-
+<!-- ![image](https://d1.awsstatic.com/tmt/build-train-deploy-machine-learning-model-sagemaker/build-train-deploy-machine-learning-model-sagemaker-3e.1369a8fd157570da9f508cebcad8614c6853d378.png) -->
+![image](./img/12.png)
 
 #### 3f. 이제 데이터를 셔플하고 훈련 데이터와 테스트 데이터로 나눕니다.
 
@@ -175,8 +176,8 @@ except Exception as e:
 train_data, test_data = np.split(model_data.sample(frac=1, random_state=1729), [int(0.7 * len(model_data))])
 print(train_data.shape, test_data.shape)
 ```
-![image](https://d1.awsstatic.com/tmt/build-train-deploy-machine-learning-model-sagemaker/build-train-deploy-machine-learning-model-sagemaker-3f.501bd114f22a4d0aec64cf6393914db22c904c04.png)
-
+<!-- ![image](https://d1.awsstatic.com/tmt/build-train-deploy-machine-learning-model-sagemaker/build-train-deploy-machine-learning-model-sagemaker-3f.501bd114f22a4d0aec64cf6393914db22c904c04.png) -->
+![image](./img/13.png)
 
 # 4단계. 데이터에서 모델 훈련
 ## 이 단계에서는 훈련 데이터 세트로 기계 학습 모델을 훈련합니다. 
