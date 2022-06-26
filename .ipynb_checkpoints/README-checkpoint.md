@@ -216,7 +216,10 @@ xgb.set_hyperparameters(max_depth=5,
 ```python
 xgb.fit({'train': s3_input_train})
 ```
-![image](https://d1.awsstatic.com/tmt/build-train-deploy-machine-learning-model-sagemaker/build-train-deploy-machine-learning-model-sagemaker-4c.baa37d5c6f44f0dbf76d9c0e86140673be1adb34.png)
+<!-- ![image](https://d1.awsstatic.com/tmt/build-train-deploy-machine-learning-model-sagemaker/build-train-deploy-machine-learning-model-sagemaker-4c.baa37d5c6f44f0dbf76d9c0e86140673be1adb34.png) -->
+![image](./img/14.png)
+![image](./img/15.png)
+
 
 # 5단계. 모델 배포
 ## 이 단계에서는 훈련된 모델을 엔드포인트로 배포하고, CSV 데이터의 형식을 다시 지정하여 로드한 다음에는, 모델을 실행하여 예측을 생성합니다.
@@ -225,7 +228,8 @@ xgb.fit({'train': s3_input_train})
 xgb_predictor = xgb.deploy(initial_instance_count=1,
                            instance_type='ml.m4.xlarge')
 ```
-![image](https://d1.awsstatic.com/tmt/build-train-deploy-machine-learning-model-sagemaker/build-train-deploy-machine-learning-model-sagemaker-5a.18aa4545125b2f1bb01871be9b73e4b723b66334.png)
+<!-- ![image](https://d1.awsstatic.com/tmt/build-train-deploy-machine-learning-model-sagemaker/build-train-deploy-machine-learning-model-sagemaker-5a.18aa4545125b2f1bb01871be9b73e4b723b66334.png) -->
+![image](./img/16.png)
 
 #### 5b. 테스트 데이터의 고객이 은행 상품에 가입했는지 예측하려면 다음 코드를 다음 코드 셀에 복사하고 [실행]을 선택합니다.
 ```python
@@ -236,7 +240,8 @@ predictions = xgb_predictor.predict(test_data_array).decode('utf-8') # predict!
 predictions_array = np.fromstring(predictions[1:], sep=',') # and turn the prediction into an array
 print(predictions_array.shape)
 ```
-![image](https://d1.awsstatic.com/tmt/build-train-deploy-machine-learning-model-sagemaker/build-train-deploy-machine-learning-model-sagemaker-5b.25ac920ed4221dd71524e8ec41700888938c5f9f.png)
+<!-- ![image](https://d1.awsstatic.com/tmt/build-train-deploy-machine-learning-model-sagemaker/build-train-deploy-machine-learning-model-sagemaker-5b.25ac920ed4221dd71524e8ec41700888938c5f9f.png) -->
+![image](./img/17.png)
 
 
 # 6단계. 모델 성능 평가
@@ -255,7 +260,8 @@ print("{0:<15}{1:<2.0f}% ({2:<}){3:>6.0f}% ({4:<})".format("No Purchase", tn/(tn
 print("{0:<16}{1:<1.0f}% ({2:<}){3:>7.0f}% ({4:<}) \n".format("Purchase", fn/(tn+fn)*100,fn, tp/(tp+fp)*100, tp))
 ```
 
-![image](https://d1.awsstatic.com/tmt/build-train-deploy-machine-learning-model-sagemaker/build-train-deploy-machine-learning-model-sagemaker-6a.f2344d634b58210902b95c50c8e4fe2b065b07cd.png)
+<!-- ![image](https://d1.awsstatic.com/tmt/build-train-deploy-machine-learning-model-sagemaker/build-train-deploy-machine-learning-model-sagemaker-6a.f2344d634b58210902b95c50c8e4fe2b065b07cd.png) -->
+![image](./img/18.png)
 
 # 7단계. 리소스 종료
 ## 이 단계에서는 Amazon SageMaker 관련 리소스를 종료합니다.
@@ -267,7 +273,8 @@ sagemaker.Session().delete_endpoint(xgb_predictor.endpoint)
 bucket_to_delete = boto3.resource('s3').Bucket(bucket_name)
 bucket_to_delete.objects.all().delete()
 ```
-![image](https://d1.awsstatic.com/tmt/build-train-deploy-machine-learning-model-sagemaker/build-train-deploy-machine-learning-model-sagemaker-7a.749511e1442644b10057b768230afe5b6dabef3a.png)
+<!-- ![image](https://d1.awsstatic.com/tmt/build-train-deploy-machine-learning-model-sagemaker/build-train-deploy-machine-learning-model-sagemaker-7a.749511e1442644b10057b768230afe5b6dabef3a.png) -->
+![image](./img/19.png)
 
 # 축하합니다!
 Amazon SageMaker를 사용하여 기계 학습 모델을 준비, 훈련, 배포 및 평가하는 방법을 배우셨습니다. Amazon SageMaker는 훈련 데이터에 신속히 연결하는 데 필요한 모든 것을 제공하여 손쉽게 기계 학습 모델을 구축하고, 애플리케이션에 맞는 최적의 알고리즘과 프레임워크를 선택하면서도 모든 기본 인프라를 관리하여 페타바이트 규모로 모델을 훈련할 수 있도록 지원합니다.
