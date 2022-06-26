@@ -88,10 +88,10 @@ SageMaker: Starting XGBoost with SageMaker V2.24
 !pip install --upgrade sagemaker
 ```
 다음과 같은 노트북셀에 입력하고 시작(shift+enter)합니다.
-![image](./img/upgrade.png)
+![image](./img/8.png)
 
 노트북 커널을 리스트합니다.
-![image](./img/restart.png)
+![image](./img/9.png)
 
 아래 코드를 차례대로 실행합니다.
 
