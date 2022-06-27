@@ -39,7 +39,7 @@ SageMaker: Starting XGBoost with SageMaker V2.24
 
 #### 2b. 노트북 인스턴스 생성 페이지에서 [노트북 인스턴스 이름] 필드에 이름을 입력합니다. 이 자습서에서는 인스턴스 이름으로 MySageMakerInstance를 사용하지만, 원하는 경우 다른 이름을 선택할 수 있습니다.
 
-이 자습서에서는 기본 노트북 인스턴스 유형인 ml.t2.medium을 그대로 사용할 수 있습니다.
+이 자습서에서는 기본 노트북 인스턴스 유형인 ml.t3.medium을 그대로 사용할 수 있습니다.
 
 노트북 인스턴스가 데이터에 액세스하고 안전하게 Amazon S3에 데이터를 업로드하도록 허용하려면 IAM 역할을 지정해야 합니다. [IAM 역할] 필드에서 [새 역할 생성]을 선택하고 Amazon SageMaker가 필수 권한을 가진 역할을 생성하고 인스턴스에 할당하도록 합니다. 또는, 계정에서 이를 위한 목적으로 사용할 기존의 IAM 역할을 선택할 수 있습니다.
 
@@ -72,7 +72,7 @@ SageMaker: Starting XGBoost with SageMaker V2.24
 # 3단계. 데이터 준비
 ## 이 단계에서는 Amazon SageMaker 노트북을 사용하여 기계 학습 모델을 훈련하는 데 필요한 데이터를 미리 처리합니다.
 #### 3a. 노트북 인스턴스 페이지에서 MySageMakerInstance가 Pending에서InService 상태로 전환되기를 기다립니다.
-상태가 InService로 전환되면 MySageMakerInstance를 선택하고 [작업] 드롭다운 메뉴를 사용하거나 InService 상태 옆에 있는 [Jupyter 열기]를 선택하여 엽니다.
+상태가 InService로 전환되면 MySageMakerInstance를 선택하고 [작업] 드롭다운 메뉴를 사용하거나 InService 상태 옆에 있는 [JupyterLab 열기]를 선택하여 엽니다.
 
 <!-- ![image](https://d1.awsstatic.com/tmt/build-train-deploy-machine-learning-model-sagemaker/build-train-deploy-machine-learning-model-sagemaker-3a.21995698e9c81a8a0ecf5466e123d5e644920127.png) -->
 ![image](./img/6.png)
@@ -210,6 +210,8 @@ xgb.set_hyperparameters(max_depth=5,
                         objective='binary:logistic',
                         num_round=100)
 ```
+[A Guide on XGBoost hyperparameters tunning](https://www.kaggle.com/code/prashant111/a-guide-on-xgboost-hyperparameters-tuning/notebook) 
+
 #### 4c. 데이터를 로드하고 XGBoost 추정 도구를 설정하고 나면, 다음 코드를 새 코드 셀에 복사하고 [실행]을 선택해서 ml.m4.xlarge 인스턴스에서 기울기 최적화로 모델을 훈련합니다.
 
 몇 분 후에 훈련 로그가 생성되는 것이 보입니다.
@@ -248,7 +250,7 @@ print(predictions_array.shape)
 ## 이 단계에서는 기계 학습 모델의 성능과 정확도를 평가합니다.
 #### 6a. 아래의 코드를 복사하여 붙여넣고 [실행]을 선택하여 오차 행렬이라는 테이블에서 실제 값과 예측값을 비교합니다.
 
-예측에 기반하여 테스트 데이터에서 고객의 90%가 정확하게 예금 증서에 가입할 것으로 예측된다는 결론을 내릴 수 있습니다. 가입 고객에 대한 정밀도는 65%(278/429), 가입하지 않은 고객에 대한 정밀도는 90%(10,785/11,928)입니다.
+예측에 기반하여 테스트 데이터에서 고객의 89.5%가 정확하게 예금 증서에 가입할 것으로 예측된다는 결론을 내릴 수 있습니다. 가입 고객에 대한 정밀도는 64%(289/(289+166)), 가입하지 않은 고객에 대한 정밀도는 90%(10,770/(10770+1132))입니다.
 
 ```python
 cm = pd.crosstab(index=test_data['y_yes'], columns=np.round(predictions_array), rownames=['Observed'], colnames=['Predicted'])
